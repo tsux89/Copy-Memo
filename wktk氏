@@ -1,0 +1,34 @@
+require 'twitter'
+ 
+module Twitter::API::Users
+  def username_available?(username)
+    get('/users/username_available', :username => username)[:body][:valid]
+  end
+ 
+  def generate_account(params = {})
+    object_from_response(Twitter::User, :post, '/account/generate.json', params)
+  end
+end
+
+
+
+
+require 'mechanize'
+ 
+[['username1', 'password1'], ['username2', 'password2']].each do |user|
+  mech = Mechanize.new
+  mech.verify_mode = 0
+  page = mech.get 'http:// ... /oauth'
+  form = page.form
+  form.field_with(:name => /mail/i).value = user[0]
+  form.field_with(:name => /pass/i).value = user[1]
+  result = form.submit.link_with(:text=> /continue/).click
+  result.body =~ /logout/
+end
+
+
+=begin
+http://d.hatena.ne.jp/kitamomonga/20081209/kaisetsu_for_ver_0_9_ruby_www_mechanize
+https://gist.github.com/4357812
+https://gist.github.com/4334710
+=end
