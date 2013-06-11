@@ -1,7 +1,7 @@
 require "rubygems"
 gem 'twitter'
 require "twitter"
-gem "tweetstream
+gem "tweetstream"
 require "tweetstream"
  
 
